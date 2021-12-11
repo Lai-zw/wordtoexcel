@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.laizw.wordtoexcel.mapper.BusColumnMapper">
+
+    <resultMap id="BaseResultMap" type="com.laizw.wordtoexcel.entity.BusColumn">
+            <id property="id" column="id_" jdbcType="VARCHAR"/>
+            <result property="tableId" column="table_id_" jdbcType="VARCHAR"/>
+            <result property="key" column="key_" jdbcType="VARCHAR"/>
+            <result property="name" column="name_" jdbcType="VARCHAR"/>
+            <result property="type" column="type_" jdbcType="VARCHAR"/>
+            <result property="length" column="length_" jdbcType="INTEGER"/>
+            <result property="decimal" column="decimal_" jdbcType="INTEGER"/>
+            <result property="required" column="required_" jdbcType="TINYINT"/>
+            <result property="primary" column="primary_" jdbcType="TINYINT"/>
+            <result property="sn" column="sn_" jdbcType="INTEGER"/>
+            <result property="defaultValue" column="default_value_" jdbcType="VARCHAR"/>
+            <result property="comment" column="comment_" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time_" jdbcType="TIMESTAMP"/>
+            <result property="createBy" column="create_by_" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time_" jdbcType="TIMESTAMP"/>
+            <result property="updateBy" column="update_by_" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id_,table_id_,key_,
+        name_,type_,length_,
+        decimal_,required_,primary_,
+        sn_,default_value_,comment_,
+        create_time_,create_by_,update_time_,
+        update_by_
+    </sql>
+</mapper>

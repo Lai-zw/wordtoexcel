@@ -1,0 +1,29 @@
+spring:
+  #【MySQL 连接】
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://172.27.188.4:3307/table_column?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+
+  # Redis 配置
+  redis:
+    host: 172.27.188.4
+    port: 6379
+    password:
+    database: 0
+
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        jdbc:
+          core: ERROR
+        data:
+          redis: ERROR
+    io:
+      lettuce: ERROR
+server:
+  port: 8081
