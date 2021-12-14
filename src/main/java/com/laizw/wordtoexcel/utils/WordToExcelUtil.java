@@ -1,7 +1,9 @@
 package com.laizw.wordtoexcel.utils;
 
+import com.laizw.wordtoexcel.entity.BusColumnDTO;
 import com.laizw.wordtoexcel.entity.ExcelEntity;
 import org.apache.poi.xwpf.usermodel.*;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
@@ -30,21 +32,14 @@ public class WordToExcelUtil {
             }
             // 获取文档中的所有表格
             List<XWPFTable> tables = document.getTables();
-            System.out.println("tables:" + tables);
-            System.out.println("tablesSize:" + tables.size());
             List<XWPFTableRow> rows;
             List<XWPFTableCell> cells;
             for (XWPFTable table : tables) {
                 // 获取表格对应行
                 rows = table.getRows();
-
                 for (XWPFTableRow row : rows) {
                     // 获取对应的单元格
                     int size = row.getTableCells().size();
-                    System.out.println(size);
-                    for (int i = 0; i < size ; i++) {
-                        System.out.println(row.getTableCells().get(i).getText());
-                    }
                     cells = row.getTableCells();
                     for (XWPFTableCell cell : cells) {
                         String[] split = cell.getText().split(":|：|/");
@@ -65,23 +60,21 @@ public class WordToExcelUtil {
     }
 
     public static List<ExcelEntity> data(List<String> list) {
-
-        int size = list.size();
         // LinkedList<String> linkedList = list.stream().collect(Collectors.toCollection(LinkedList::new));
-        List<ExcelEntity> entityList = new LinkedList<>();
-        for (int i = 0; i < size; i++) {
-            if (list.get(i).contains("日期")) {
-                entityList.add(new ExcelEntity(list.get(i), "", "", "", "日期型", "", "", "日期控件", "yyyy-MM-dd", "", "", ""));
-            } else if (list.get(i).contains("人")) {
-                entityList.add(new ExcelEntity(list.get(i), "", "", "", "字符串", "50", "", "单行文本", "", "", "", ""));
-                entityList.add(new ExcelEntity(list.get(i) + "id", "", "", "", "字符串", "50", "", "单行文本", "", "", "", ""));
-                entityList.add(new ExcelEntity(list.get(i) + "签名", "", "", "", "大文本", "", "", "附件上传", "", "", "", ""));
-            } else if (list.get(i).contains("结论") || list.get(i).contains("备注")) {
-                entityList.add(new ExcelEntity(list.get(i), "", "", "", "大文本", "", "", "单行文本", "", "", "", ""));
-            } else if (list.get(i).contains("图")) {
-                entityList.add(new ExcelEntity(list.get(i), "", "", "", "大文本", "", "", "附件上传", "", "", "", ""));
+        List<ExcelEntity> entityList = new ArrayList<>();
+        for (String s : list) {
+            if (s.contains("日期")) {
+                entityList.add(new ExcelEntity(s, "", "", "", "日期型", "", "", "日期控件", "yyyy-MM-dd", "", "", ""));
+            } else if (s.contains("人")) {
+                entityList.add(new ExcelEntity(s, "", "", "", "字符串", "50", "", "单行文本", "", "", "", ""));
+                entityList.add(new ExcelEntity(s + "id", "", "", "", "字符串", "50", "", "单行文本", "", "", "", ""));
+                entityList.add(new ExcelEntity(s + "签名", "", "", "", "大文本", "", "", "附件上传", "", "", "", ""));
+            } else if (s.contains("结论") || s.contains("备注")) {
+                entityList.add(new ExcelEntity(s, "", "", "", "大文本", "", "", "单行文本", "", "", "", ""));
+            } else if (s.contains("图")) {
+                entityList.add(new ExcelEntity(s, "", "", "", "大文本", "", "", "附件上传", "", "", "", ""));
             } else {
-                entityList.add(new ExcelEntity(list.get(i), "", "", "", "字符串", "50", "", "单行文本", "", "", "", ""));
+                entityList.add(new ExcelEntity(s, "", "", "", "字符串", "50", "", "单行文本", "", "", "", ""));
             }
         }
         entityList.add(new ExcelEntity("创建人", "creater", "creater", "", "字符串", "50", "${currentUserName}", "单行文本", "", "", "", ""));
@@ -89,6 +82,27 @@ public class WordToExcelUtil {
         entityList.add(new ExcelEntity("创建人部门", "createrDep", "creater_dep", "", "字符串", "50", "${currentOrgName}", "单行文本", "", "", "", ""));
         entityList.add(new ExcelEntity("创建人部门id", "createrDepId", "creater_dep_id", "", "字符串", "50", "${currentOrgId}", "单行文本", "", "", "", ""));
         entityList.add(new ExcelEntity("创建日期", "createTime", "create_time", "", "日期型", "", "${currentDateTime}", "日期控件", "yyyy-MM-dd", "", "", ""));
+        return entityList;
+    }
+
+    public static List<ExcelEntity> busColumnToExcelEntity(List<BusColumnDTO> columnLists) {
+        List<ExcelEntity> entityList = new ArrayList<ExcelEntity>();
+        int size = columnLists.size();
+        for (BusColumnDTO columnList : columnLists) {
+            entityList.add(new ExcelEntity(
+                    columnList.getComment(),
+                    columnList.getKey(),
+                    columnList.getName(),
+                    "",
+                    "",
+                    columnList.getLength().toString(),
+                    columnList.getDefaultValue(),
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""));
+        }
         return entityList;
     }
 }
